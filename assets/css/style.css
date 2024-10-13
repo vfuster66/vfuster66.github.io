@@ -484,7 +484,7 @@ span.single-timeline-horizontal.spacial-horizontal-line {
 
 .single-progress-txt h3 {
     width: 10%;
-    color: #a606c3;
+    color: #000;
     position: relative;
     top: 6px;
     left: 20px;
@@ -509,6 +509,11 @@ span.single-timeline-horizontal.spacial-horizontal-line {
 .progress-bar {
     background: #b636ff;
     border-radius: 3px;
+    transition: width 1.5s ease-in-out;
+}
+
+.soft-skill .progress-bar {
+    background: #6506c3; /* Couleur des soft skills */
     transition: width 1.5s ease-in-out;
 }
 
