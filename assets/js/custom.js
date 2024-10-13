@@ -192,27 +192,27 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             body: formData,
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json' // Demander une réponse JSON pour éviter la redirection
             }
         })
         .then(function(response) {
-            // Vérifier si la réponse est en JSON pour un traitement correct
-            return response.json().then(function(data) {
-                if (response.ok && data.ok) { // Formspree retourne "ok" en JSON si la requête est correcte
-                    document.getElementById('form-feedback').textContent = "Merci ! Votre message a bien été envoyé.";
-                    document.getElementById('form-feedback').style.color = "green";
-                    form.reset(); // Réinitialiser le formulaire après soumission réussie
-                } else {
-                    throw new Error("Une erreur s'est produite. Veuillez réessayer.");
-                }
-            }).catch(function() {
-                document.getElementById('form-feedback').textContent = "Erreur lors de l'envoi. Veuillez réessayer.";
-                document.getElementById('form-feedback').style.color = "red";
-            });
+            if (response.ok) {
+                return response.json(); // Traiter la réponse en JSON
+            } else {
+                throw new Error("Erreur de soumission du formulaire.");
+            }
+        })
+        .then(function(data) {
+            if (data.ok) {
+                document.getElementById('form-feedback').textContent = "Merci ! Votre message a bien été envoyé.";
+                document.getElementById('form-feedback').style.color = "green";
+                form.reset(); // Réinitialiser le formulaire après soumission réussie
+            } else {
+                throw new Error("Erreur lors de l'envoi du message.");
+            }
         })
         .catch(function(error) {
-            // Gérer les erreurs réseau ou les autres problèmes
-            document.getElementById('form-feedback').textContent = error.message;
+            document.getElementById('form-feedback').textContent = "Erreur lors de l'envoi. Veuillez réessayer.";
             document.getElementById('form-feedback').style.color = "red";
         });
     });
