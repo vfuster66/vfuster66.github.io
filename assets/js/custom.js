@@ -184,7 +184,7 @@ typeText(h2, h2Contents.toArray(), 0, function() {
 
         $.ajax({
             type: "POST",
-            url: "url-to-your-backend",
+            url: "https://formspree.io/f/mrbggpld",
             data: formData,
             success: function(response) {
                 $("#form-feedback").text("Message envoyé avec succès !").css("color", "green");
