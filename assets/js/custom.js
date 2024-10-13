@@ -4,8 +4,8 @@
 2. Smooth Scroll spy
 3. Progress-bar
 4. welcome animation support
-5. Animate on scroll
-6. Contact submission
+5. Contact submission
+6. Skills
 ======================================*/
 
 $(document).ready(function()
@@ -95,67 +95,71 @@ $(document).ready(function()
 			4.Welcome animation support
 	--------------------------------------*/
 	var h2 = $(".header-text h2");
-	var objectif = $("#objectif");
-	var duree = $("#duree");
-	var button = $(".header-text a");
-	var h2Contents = h2.contents();
-	
-	objectif.css('opacity', '0');
-	duree.css('opacity', '0');
-	button.css('opacity', '0');
-	
-	function typeText(element, contentArray, index, callback) {
-		if (index < contentArray.length) {
-			var currentItem = contentArray[index];
-			if (currentItem.nodeType === 3) { // Texte pur (nodeType 3)
-				var textArray = currentItem.nodeValue.split('');
-				animateText(element, textArray, 0, function() {
-					typeText(element, contentArray, index + 1, callback);
-				});
-			} else if (currentItem.nodeType === 1) { // Elément HTML (nodeType 1)
-				// Crée un nouvel élément et le réinsère dans le DOM
-				var newElement = $(currentItem).clone();
-				element.append(newElement);
-				// Traite le contenu de l'élément (si c'est du texte ou contient d'autres éléments)
-				var childContents = newElement.contents().toArray();
-				if (childContents.length > 0) {
-					typeText(newElement, childContents, 0, function() {
-						typeText(element, contentArray, index + 1, callback);
-					});
-				} else {
-					typeText(element, contentArray, index + 1, callback);
-				}
-			}
-		} else if (typeof callback == 'function') {
-			callback();
-		}
-	}
-	
-	function animateText(element, textArray, textIndex, callback) {
-		if (textIndex < textArray.length) {
-			element.append(textArray[textIndex++]);
-			setTimeout(function() {
-				animateText(element, textArray, textIndex, callback);
-			}, 100); // Vitesse de l'animation
-		} else if (typeof callback == 'function') {
-			callback();
-		}
-	}
-	
-	// Effacer le contenu initial
-	h2.empty();
-	
-	// Lancer l'animation de typewriter
-	typeText(h2, h2Contents.toArray(), 0, function() {
-		objectif.animate({opacity: 1}, 1000, function() {
-			duree.animate({opacity: 1}, 1000, function() {
-				button.animate({opacity: 1}, 1000);
-			});
-		});
-	});
+var objectif = $("#objectif");
+var duree = $("#duree");
+var button = $(".header-text a");
+var h2Contents = h2.contents();
+
+objectif.css('opacity', '0');
+duree.css('opacity', '0');
+button.css('opacity', '0');
+
+function typeText(element, contentArray, index, callback) {
+    if (index < contentArray.length) {
+        var currentItem = contentArray[index];
+
+        if (currentItem.nodeType === 3) { // Texte pur (nodeType 3)
+            var textArray = currentItem.nodeValue.split('');
+            animateText(element, textArray, 0, function() {
+                typeText(element, contentArray, index + 1, callback);
+            });
+
+        } else if (currentItem.nodeType === 1) { // Élément HTML (nodeType 1)
+            // Créer un élément sans réanimer son contenu déjà inséré
+            var newElement = $(currentItem).clone().empty(); // Clone l'élément mais vide son contenu
+            element.append(newElement); // Ajoute l'élément vide
+
+            // Si l'élément contient d'autres enfants, animer ces enfants
+            var childContents = $(currentItem).contents().toArray();
+            if (childContents.length > 0) {
+                typeText(newElement, childContents, 0, function() {
+                    typeText(element, contentArray, index + 1, callback);
+                });
+            } else {
+                typeText(element, contentArray, index + 1, callback);
+            }
+        }
+
+    } else if (typeof callback == 'function') {
+        callback();
+    }
+}
+
+function animateText(element, textArray, textIndex, callback) {
+    if (textIndex < textArray.length) {
+        element.append(textArray[textIndex++]);
+        setTimeout(function() {
+            animateText(element, textArray, textIndex, callback);
+        }, 100); // Vitesse de l'animation
+    } else if (typeof callback == 'function') {
+        callback();
+    }
+}
+
+// Effacer le contenu initial
+h2.empty();
+
+// Lancer l'animation de typewriter
+typeText(h2, h2Contents.toArray(), 0, function() {
+    objectif.animate({opacity: 1}, 1000, function() {
+        duree.animate({opacity: 1}, 1000, function() {
+            button.animate({opacity: 1}, 1000);
+        });
+    });
+});
 	
 	/*-------------------------------------
-			6. Contact submission
+			5. Contact submission
 	--------------------------------------*/
 
 	AOS.init({
@@ -194,10 +198,8 @@ $(document).ready(function()
 
 });
 
-
-    
 	/*-------------------------------------
-			Skills
+			6. Skills
 	--------------------------------------*/
     document.addEventListener('DOMContentLoaded', function() {
         // Tableau des compétences, avec un type pour différencier hard et soft skills
