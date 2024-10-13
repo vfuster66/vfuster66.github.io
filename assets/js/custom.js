@@ -5,7 +5,6 @@
 3. Progress-bar
 4. welcome animation support
 5. Contact submission
-6. Skills
 ======================================*/
 
 $(document).ready(function()
@@ -197,69 +196,3 @@ typeText(h2, h2Contents.toArray(), 0, function() {
     });
 
 });
-
-	/*-------------------------------------
-			6. Skills
-	--------------------------------------*/
-    document.addEventListener('DOMContentLoaded', function() {
-        // Tableau des compétences, avec un type pour différencier hard et soft skills
-        const skills = [
-            { name: 'HTML', percentage: 75, type: 'hard' },
-            { name: 'CSS', percentage: 75, type: 'hard' },
-            { name: 'JavaScript', percentage: 75, type: 'hard' },
-            { name: 'C++', percentage: 60, type: 'hard' },
-            { name: 'Python', percentage: 60, type: 'hard' },
-            { name: 'Docker', percentage: 75, type: 'hard' },
-            { name: 'GitHub', percentage: 85, type: 'hard' },
-            { name: 'Communication', percentage: 90, type: 'soft' },
-            { name: 'Organisation', percentage: 90, type: 'soft' }
-        ];
-    
-        const skillsContainer = document.getElementById('skills-container');
-    
-        // Générer les compétences avec les barres de progression
-        skills.forEach(skill => {
-            const col = document.createElement('div');
-            col.classList.add('col-md-6');
-    
-            const singleSkillContent = document.createElement('div');
-            singleSkillContent.classList.add('single-skill-content');
-    
-            const barWrapper = document.createElement('div');
-            barWrapper.classList.add('barWrapper');
-    
-            const progressText = document.createElement('span');
-            progressText.classList.add('progressText');
-            progressText.textContent = skill.name;
-    
-            const singleProgressTxt = document.createElement('div');
-            singleProgressTxt.classList.add('single-progress-txt');
-    
-            const progress = document.createElement('div');
-            progress.classList.add('progress');
-    
-            const progressBar = document.createElement('div');
-            progressBar.classList.add('progress-bar');
-            progressBar.classList.add(skill.type === 'hard' ? 'hard-skill' : 'soft-skill'); // Ajoute la classe selon le type
-            progressBar.setAttribute('role', 'progressbar');
-            progressBar.setAttribute('aria-valuenow', skill.percentage);
-            progressBar.setAttribute('aria-valuemin', '0');
-            progressBar.setAttribute('aria-valuemax', '100');
-            progressBar.style.width = `${skill.percentage}%`;
-    
-            const percentageText = document.createElement('h3');
-            percentageText.textContent = `${skill.percentage}%`;
-    
-            progress.appendChild(progressBar);
-            singleProgressTxt.appendChild(progress);
-            singleProgressTxt.appendChild(percentageText);
-            barWrapper.appendChild(progressText);
-            barWrapper.appendChild(singleProgressTxt);
-            singleSkillContent.appendChild(barWrapper);
-            col.appendChild(singleSkillContent);
-    
-            skillsContainer.appendChild(col);
-        });
-    });
-    
-    
