@@ -155,53 +155,15 @@ $(document).ready(function() {
         });
     });
 
-    /*-------------------------------------
-            6. Skills
-    --------------------------------------*/
-    const skills = [
-        { name: 'HTML', percentage: 75, type: 'hard' },
-        { name: 'CSS', percentage: 75, type: 'hard' },
-        { name: 'JavaScript', percentage: 75, type: 'hard' },
-        { name: 'C++', percentage: 60, type: 'hard' },
-        { name: 'Python', percentage: 60, type: 'hard' },
-        { name: 'Docker', percentage: 75, type: 'hard' },
-        { name: 'GitHub', percentage: 85, type: 'hard' },
-        { name: 'Communication', percentage: 90, type: 'soft' },
-        { name: 'Organisation', percentage: 90, type: 'soft' }
-    ];
+});
 
-    const skillsContainer = document.getElementById('skills-container');
-    skills.forEach(skill => {
-        const col = document.createElement('div');
-        col.classList.add('col-md-6');
-        const singleSkillContent = document.createElement('div');
-        singleSkillContent.classList.add('single-skill-content');
-        const barWrapper = document.createElement('div');
-        barWrapper.classList.add('barWrapper');
-        const progressText = document.createElement('span');
-        progressText.classList.add('progressText');
-        progressText.textContent = skill.name;
-        const singleProgressTxt = document.createElement('div');
-        singleProgressTxt.classList.add('single-progress-txt');
-        const progress = document.createElement('div');
-        progress.classList.add('progress');
-        const progressBar = document.createElement('div');
-        progressBar.classList.add('progress-bar');
-        progressBar.classList.add(skill.type === 'hard' ? 'hard-skill' : 'soft-skill');
-        progressBar.setAttribute('role', 'progressbar');
-        progressBar.setAttribute('aria-valuenow', skill.percentage);
-        progressBar.setAttribute('aria-valuemin', '0');
-        progressBar.setAttribute('aria-valuemax', '100');
-        progressBar.style.width = `${skill.percentage}%`;
-        const percentageText = document.createElement('h3');
-        percentageText.textContent = `${skill.percentage}%`;
-        progress.appendChild(progressBar);
-        singleProgressTxt.appendChild(progress);
-        singleProgressTxt.appendChild(percentageText);
-        barWrapper.appendChild(progressText);
-        barWrapper.appendChild(singleProgressTxt);
-        singleSkillContent.appendChild(barWrapper);
-        col.appendChild(singleSkillContent);
-        skillsContainer.appendChild(col);
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialiser AOS (Animation on Scroll)
+    AOS.init({
+        duration: 800,   // Durée de l'animation
+        easing: 'ease-in-out',   // Type d'animation
+        once: true,   // Animation se joue une seule fois
+        mirror: false,   // Ne pas répéter l'animation lors du scroll inverse
+        offset: 120,  // Décalage avant le déclenchement de l'animation
     });
 });
