@@ -162,7 +162,7 @@ typeText(h2, h2Contents.toArray(), 0, function() {
 		5. Contact submission
 --------------------------------------*/
 
-document.addEventListener('DOMContentLoaded', function() {
+
     // Initialiser AOS (Animation on Scroll)
     AOS.init({
         duration: 800,
