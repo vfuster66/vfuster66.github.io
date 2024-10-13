@@ -196,17 +196,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .then(function(response) {
-            if (response.ok) {
-                document.getElementById('form-feedback').textContent = "Merci ! Votre message a bien été envoyé.";
-                document.getElementById('form-feedback').style.color = "green";
-                form.reset(); // Réinitialiser le formulaire après soumission réussie
-            } else {
-                document.getElementById('form-feedback').textContent = "Une erreur s'est produite. Veuillez réessayer.";
+            // Vérifier si la réponse est en JSON pour un traitement correct
+            return response.json().then(function(data) {
+                if (response.ok && data.ok) { // Formspree retourne "ok" en JSON si la requête est correcte
+                    document.getElementById('form-feedback').textContent = "Merci ! Votre message a bien été envoyé.";
+                    document.getElementById('form-feedback').style.color = "green";
+                    form.reset(); // Réinitialiser le formulaire après soumission réussie
+                } else {
+                    throw new Error("Une erreur s'est produite. Veuillez réessayer.");
+                }
+            }).catch(function() {
+                document.getElementById('form-feedback').textContent = "Erreur lors de l'envoi. Veuillez réessayer.";
                 document.getElementById('form-feedback').style.color = "red";
-            }
+            });
         })
         .catch(function(error) {
-            document.getElementById('form-feedback').textContent = "Une erreur s'est produite. Veuillez réessayer.";
+            // Gérer les erreurs réseau ou les autres problèmes
+            document.getElementById('form-feedback').textContent = error.message;
             document.getElementById('form-feedback').style.color = "red";
         });
     });
