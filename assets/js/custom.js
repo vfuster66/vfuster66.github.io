@@ -187,28 +187,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Créer un objet FormData avec les données du formulaire
         const formData = new FormData(form);
 
+        // Réinitialiser le formulaire AVANT l'envoi
+        form.reset();
+
         // Envoyer les données via fetch()
         fetch('https://formspree.io/f/mrbggpld', {
             method: 'POST',
             body: formData,
             headers: {
-                'Accept': 'application/json' // Demander une réponse JSON pour éviter la redirection
+                'Accept': 'application/json'
             }
         })
         .then(function(response) {
             if (response.ok) {
-                return response.json(); // Traiter la réponse en JSON
-            } else {
-                throw new Error("Erreur de soumission du formulaire.");
-            }
-        })
-        .then(function(data) {
-            if (data.ok) {
                 document.getElementById('form-feedback').textContent = "Merci ! Votre message a bien été envoyé.";
                 document.getElementById('form-feedback').style.color = "green";
-                form.reset(); // Réinitialiser le formulaire après soumission réussie
             } else {
-                throw new Error("Erreur lors de l'envoi du message.");
+                throw new Error("Erreur de soumission du formulaire.");
             }
         })
         .catch(function(error) {
