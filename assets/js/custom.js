@@ -158,44 +158,58 @@ typeText(h2, h2Contents.toArray(), 0, function() {
     });
 });
 	
-	/*-------------------------------------
-			5. Contact submission
-	--------------------------------------*/
+/*-------------------------------------
+		5. Contact submission
+--------------------------------------*/
 
-	AOS.init({
-		duration: 800,
-		easing: 'ease-in-out',
-		once: true,
-		mirror: false,
-		offset: 120,
-	});
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialiser AOS (Animation on Scroll)
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false,
+        offset: 120,
+    });
 
-    $('#contact-form').submit(function(event)
-	{
-        event.preventDefault();
+    // Gérer la soumission du formulaire
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêcher le rechargement de la page
 
-        if (!this.checkValidity())
-		{
-            $('#form-feedback').text("Veuillez remplir tous les champs requis").css("color", "red");
+        // Vérifier si le formulaire est valide
+        if (!form.checkValidity()) {
+            document.getElementById('form-feedback').textContent = "Veuillez remplir tous les champs requis";
+            document.getElementById('form-feedback').style.color = "red";
             return;
         }
 
-        var formData = $(this).serialize();
+        // Créer un objet FormData avec les données du formulaire
+        const formData = new FormData(form);
 
-        $.ajax({
-            type: "POST",
-            url: "https://formspree.io/f/mrbggpld",
-            data: formData,
-            success: function(response) {
-                $("#form-feedback").text("Message envoyé avec succès !").css("color", "green");
-                $('#contact-form').trigger("reset");
-            },
-            error: function(xhr, status, error) {
-                $("#form-feedback").text("Erreur lors de l'envoi du message : " + error).css("color", "red");
+        // Envoyer les données via fetch()
+        fetch('https://formspree.io/f/mrbggpld', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
             }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                document.getElementById('form-feedback').textContent = "Merci ! Votre message a bien été envoyé.";
+                document.getElementById('form-feedback').style.color = "green";
+                form.reset(); // Réinitialiser le formulaire après soumission réussie
+            } else {
+                document.getElementById('form-feedback').textContent = "Une erreur s'est produite. Veuillez réessayer.";
+                document.getElementById('form-feedback').style.color = "red";
+            }
+        })
+        .catch(function(error) {
+            document.getElementById('form-feedback').textContent = "Une erreur s'est produite. Veuillez réessayer.";
+            document.getElementById('form-feedback').style.color = "red";
         });
     });
-
 });
 
 	/*-------------------------------------

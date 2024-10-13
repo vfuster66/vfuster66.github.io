@@ -764,7 +764,7 @@
 						<div class="col-md-offset-1 col-md-5 col-sm-6">
 							<div class="single-contact-box">
 								<div class="contact-form">
-									<form id="contact-form" action="https://formspree.io/f/mrbggpld" method="POST">
+									<form id="contact-form" action="https://formspree.io/f/mrbggpld" method="POST" onsubmit="return handleFormSubmit(event)">
 										<div class="row">
 											<div class="col-sm-6 col-xs-12">
 												<div class="form-group">
@@ -799,6 +799,10 @@
 											</div>
 										</div>
 									</form>
+									
+									<!-- Message de confirmation -->
+									<div id="form-feedback" style="text-align:center; margin-top:20px;"></div>
+									
 								</div><!--/.contact-form-->
 							</div><!--/.single-contact-box-->
 						</div><!--/.col-->
