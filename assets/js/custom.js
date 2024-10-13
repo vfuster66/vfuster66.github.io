@@ -94,69 +94,66 @@ $(document).ready(function()
 	/*-------------------------------------
 			4.Welcome animation support
 	--------------------------------------*/
-
 	var h2 = $(".header-text h2");
 	var objectif = $("#objectif");
 	var duree = $("#duree");
 	var button = $(".header-text a");
 	var h2Contents = h2.contents();
-
+	
 	objectif.css('opacity', '0');
 	duree.css('opacity', '0');
 	button.css('opacity', '0');
-
-	function typeText(element, contentArray, index, callback)
-	{
-		if (index < contentArray.length)
-		{
+	
+	function typeText(element, contentArray, index, callback) {
+		if (index < contentArray.length) {
 			var currentItem = contentArray[index];
-			if (currentItem.nodeType === 3)
-			{
+			if (currentItem.nodeType === 3) { // Texte pur (nodeType 3)
 				var textArray = currentItem.nodeValue.split('');
-				animateText(element, textArray, 0, function()
-				{
+				animateText(element, textArray, 0, function() {
 					typeText(element, contentArray, index + 1, callback);
 				});
-			} else if (currentItem.nodeType === 1)
-			{
-				element.append(currentItem);
-				typeText(element, contentArray, index + 1, callback);
+			} else if (currentItem.nodeType === 1) { // Elément HTML (nodeType 1)
+				// Crée un nouvel élément et le réinsère dans le DOM
+				var newElement = $(currentItem).clone();
+				element.append(newElement);
+				// Traite le contenu de l'élément (si c'est du texte ou contient d'autres éléments)
+				var childContents = newElement.contents().toArray();
+				if (childContents.length > 0) {
+					typeText(newElement, childContents, 0, function() {
+						typeText(element, contentArray, index + 1, callback);
+					});
+				} else {
+					typeText(element, contentArray, index + 1, callback);
+				}
 			}
-		}
-		else if (typeof callback == 'function')
-		{
+		} else if (typeof callback == 'function') {
 			callback();
 		}
 	}
-
-	function animateText(element, textArray, textIndex, callback)
-	{
-		if (textIndex < textArray.length)
-		{
+	
+	function animateText(element, textArray, textIndex, callback) {
+		if (textIndex < textArray.length) {
 			element.append(textArray[textIndex++]);
-			setTimeout(function()
-			{
+			setTimeout(function() {
 				animateText(element, textArray, textIndex, callback);
-			}, 100);
-		}
-		else if (typeof callback == 'function')
-		{
+			}, 100); // Vitesse de l'animation
+		} else if (typeof callback == 'function') {
 			callback();
 		}
 	}
+	
+	// Effacer le contenu initial
 	h2.empty();
-	typeText(h2, h2Contents.toArray(), 0, function()
-	{
-		objectif.animate({opacity: 1}, 1000, function()
-		{
-			duree.animate({opacity: 1}, 1000, function()
-			{
+	
+	// Lancer l'animation de typewriter
+	typeText(h2, h2Contents.toArray(), 0, function() {
+		objectif.animate({opacity: 1}, 1000, function() {
+			duree.animate({opacity: 1}, 1000, function() {
 				button.animate({opacity: 1}, 1000);
 			});
 		});
 	});
-
-
+	
 	/*-------------------------------------
 			6. Contact submission
 	--------------------------------------*/
